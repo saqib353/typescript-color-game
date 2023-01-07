@@ -1,4 +1,4 @@
-import { useAppSelector, useAppDispatch } from "../Redux/hooks/hooks";
+import { useAppSelector, useAppDispatch } from "../Redux/hooks/useApp";
 import { spreadColorFromTop, spreadColorFromBottom, spreadColorFromLeft, spreadColorFromRight, box } from "../Redux/features/boxesSlice";
 import { getColorValue } from "../Redux/utilities/utilities";
 

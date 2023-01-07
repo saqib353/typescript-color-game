@@ -1,5 +1,5 @@
 import { GiTriangleTarget } from "react-icons/gi";
-import { useAppSelector } from "../Redux/hooks/hooks";
+import { useAppSelector } from "../Redux/hooks/useApp";
 
 const UserDetails = () => {
   const { data, difference, movesLeft, closestColor } = useAppSelector((state) => state.boxes);
