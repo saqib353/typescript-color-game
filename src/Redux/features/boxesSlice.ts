@@ -1,61 +1,25 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import uniqid from "uniqid";
-import axios from "axios";
-import {
-  calculateDifference,
-  getColorValue,
-  getTargetSquaresForRows,
-  getTargetSquaresForColumns,
-  topAndLeftBgColor,
-  bottomAndRightBgColor,
-  updateDifferenceState,
-} from "../utilities/utilities";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import uniqid from 'uniqid';
+import axios from 'axios';
+import { calculateDifference } from '../utilities/calculateDifference';
+import { getTargetSquaresForColumns, getTargetSquaresForRows } from '../utilities/targetSquares';
+import { getColorValue } from '../utilities/colorValue';
+import { bottomAndRightBgColor, topAndLeftBgColor } from '../utilities/bgColor';
+import { updateDifferenceState } from '../utilities/difference';
+import { box, InitialState, Payload, RGB } from '../../interfaces/types';
 
-export type box = {
-  id: string;
-  bgColor: string;
-  difference: number;
-  redOutline: boolean;
-};
-
-export type RGB = [number, number, number];
-
-export type InitialState = {
-  data: Response;
-  twoDimensionalArray: box[][];
-  difference: number;
-  movesLeft: number;
-  closestColor: string;
-};
-
-type Payload = {
-  item: box;
-  rowNumber: number;
-  color?: string;
-};
-
-type Response = {
-  userId: string;
-  width: number;
-  height: number;
-  maxMoves: number;
-  target: RGB;
-};
-
-export const getData = createAsyncThunk("boxes", async (url: string) => {
+export const getData = createAsyncThunk('boxes', async (url: string) => {
   try {
     const response = await axios.get(url);
     response.data.height += 2;
     response.data.width += 2;
 
-    const getBox = (): box => {
-      return {
-        id: uniqid(),
-        bgColor: "rgb(0,0,0)",
-        difference: 100,
-        redOutline: false,
-      };
-    };
+    const getBox = (): box => ({
+      id: uniqid(),
+      bgColor: 'rgb(0,0,0)',
+      difference: 100,
+      redOutline: false,
+    });
 
     const arr = new Array(response.data.height);
     for (let i = 0; i < response.data.height; i++) {
@@ -72,7 +36,7 @@ export const getData = createAsyncThunk("boxes", async (url: string) => {
       twoDimensionalArray: arr,
       difference: calculateDifference(response.data.target, [0, 0, 0]),
       movesLeft: response.data.maxMoves,
-      closestColor: "rgb(0,0,0)",
+      closestColor: 'rgb(0,0,0)',
     };
   } catch (error) {
     console.error(error);
@@ -80,7 +44,7 @@ export const getData = createAsyncThunk("boxes", async (url: string) => {
 });
 
 const responseObject = {
-  userId: "",
+  userId: '',
   width: 0,
   height: 0,
   maxMoves: 0,
@@ -92,16 +56,16 @@ const initialState: InitialState = {
   twoDimensionalArray: [],
   difference: 0,
   movesLeft: -1,
-  closestColor: "",
+  closestColor: '',
 };
 
 const boxesSlice = createSlice({
-  name: "boxes",
-  initialState: initialState,
+  name: 'boxes',
+  initialState,
   reducers: {
     spreadColorFromTop: (state, { payload }: PayloadAction<Payload>) => {
-      state.movesLeft = state.movesLeft - 1;
-      let targetSqaures = getTargetSquaresForRows(state.twoDimensionalArray, state.data.height, state.data.width, payload.item.id);
+      state.movesLeft -= 1;
+      const targetSqaures = getTargetSquaresForRows(state.twoDimensionalArray, state.data.height, state.data.width, payload.item.id);
 
       for (let i = 0; i < targetSqaures.length - 1; i++) {
         state.twoDimensionalArray = state.twoDimensionalArray.map((arr) =>
@@ -118,7 +82,7 @@ const boxesSlice = createSlice({
               );
               return {
                 ...e,
-                bgColor: bgColor,
+                bgColor,
                 difference: calculateDifference(state.data.target, getColorValue(bgColor)),
               };
             }
@@ -135,7 +99,7 @@ const boxesSlice = createSlice({
 
     spreadColorFromBottom: (state, { payload }: PayloadAction<Payload>) => {
       state.movesLeft--;
-      let targetSqaures = getTargetSquaresForRows(state.twoDimensionalArray, state.data.height, state.data.width, payload.item.id);
+      const targetSqaures = getTargetSquaresForRows(state.twoDimensionalArray, state.data.height, state.data.width, payload.item.id);
 
       for (let i = targetSqaures.length - 1; i > 0; i--) {
         state.twoDimensionalArray = state.twoDimensionalArray.map((arr) =>
@@ -152,7 +116,7 @@ const boxesSlice = createSlice({
               );
               return {
                 ...e,
-                bgColor: bgColor,
+                bgColor,
                 difference: calculateDifference(state.data.target, getColorValue(bgColor)),
               };
             }
@@ -186,7 +150,7 @@ const boxesSlice = createSlice({
               );
               return {
                 ...e,
-                bgColor: bgColor,
+                bgColor,
                 difference: calculateDifference(state.data.target, getColorValue(bgColor)),
               };
             }
@@ -220,7 +184,7 @@ const boxesSlice = createSlice({
               );
               return {
                 ...e,
-                bgColor: bgColor,
+                bgColor,
                 difference: calculateDifference(state.data.target, getColorValue(bgColor)),
               };
             }

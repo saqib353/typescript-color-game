@@ -1,5 +1,5 @@
-import { box } from "../Redux/features/boxesSlice";
-import SquareBox from "./SquareBox";
+import { box } from '../Redux/features/boxesSlice';
+import SquareBox from './SquareBox';
 
 type RowsProps = {
   rowNumber: number;
