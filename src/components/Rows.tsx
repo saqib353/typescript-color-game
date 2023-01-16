@@ -1,4 +1,4 @@
-import { box } from '../Redux/features/boxesSlice';
+import { box } from '../interfaces/types';
 import SquareBox from './SquareBox';
 
 type RowsProps = {

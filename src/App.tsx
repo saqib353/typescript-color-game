@@ -1,7 +1,7 @@
-import UserDetails from './components/UserDetails.jsx';
-import Rows from './components/Rows.jsx';
-import useFetch from './Redux/hooks/useFetch.js';
-import { box } from './interfaces/types.js';
+import { box } from './interfaces/types';
+import UserDetails from './components/UserDetails';
+import Rows from './components/Rows';
+import useFetch from './Redux/hooks/useFetch';
 
 function App() {
   const { data, twoDimensionalArray } = useFetch('http://localhost:9876/init');
