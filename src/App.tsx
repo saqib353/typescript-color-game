@@ -9,6 +9,7 @@ function App() {
 
   return (
     <div className="container">
+      {/*Here are the user details */}
       <UserDetails />
       <div style={{ display: 'grid' }}>
         {data &&
