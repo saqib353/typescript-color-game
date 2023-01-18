@@ -4,7 +4,7 @@ import Rows from './components/Rows';
 import useFetch from './Redux/hooks/useFetch';
 
 function App() {
-  const { data, twoDimensionalArray } = useFetch('http://localhost:9876/init');
+  const { data, twoDimensionalArray } = useFetch();
   let rowCounter = 0;
 
   return (
